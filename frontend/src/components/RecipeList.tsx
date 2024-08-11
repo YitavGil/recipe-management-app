@@ -7,6 +7,101 @@ import RecipeForm from './RecipeForm';
 import { Recipe } from '../types/types';
 import { getAllRecipes, createRecipe, updateRecipe, deleteRecipe } from '../services/api';
 
+const RecipeList: React.FC = () => {
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
+
+  const fetchRecipes = async () => {
+    const fetchedRecipes = await getAllRecipes();
+    setRecipes(fetchedRecipes);
+  };
+
+  const handleCreateRecipe = async (recipe: Omit<Recipe, 'id'>) => {
+    await createRecipe(recipe);
+    fetchRecipes();
+    setIsFormVisible(false);
+  };
+
+  const handleUpdateRecipe = async (recipe: Omit<Recipe, 'id'>) => {
+    if (editingRecipe) {
+      await updateRecipe(editingRecipe.id, recipe);
+      fetchRecipes();
+      setEditingRecipe(null);
+    }
+  };
+
+  const handleDeleteRecipe = async (id: string) => {
+    await deleteRecipe(id);
+    fetchRecipes();
+  };
+
+  const filteredRecipes = recipes.filter(recipe =>
+    recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
+  return (
+    <Container>
+      <Title>My Recipe Collection</Title>
+      <SearchContainer>
+        <SearchInput
+          type="text"
+          placeholder="Search recipes..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <AddButton
+          onClick={() => setIsFormVisible(true)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Add New Recipe
+        </AddButton>
+      </SearchContainer>
+      <AnimatePresence>
+        {isFormVisible && (
+          <ModalOverlay>
+            <RecipeForm
+              onSave={handleCreateRecipe}
+              onCancel={() => setIsFormVisible(false)}
+            />
+          </ModalOverlay>
+        )}
+      </AnimatePresence>
+      <Grid>
+        <AnimatePresence>
+          {filteredRecipes.map(recipe => (
+            <RecipeItem
+              key={recipe.id}
+              recipe={recipe}
+              onEdit={setEditingRecipe}
+              onDelete={handleDeleteRecipe}
+            />
+          ))}
+        </AnimatePresence>
+      </Grid>
+      {editingRecipe && (
+        <ModalOverlay>
+          <RecipeForm
+            recipe={editingRecipe}
+            onSave={handleUpdateRecipe}
+            onCancel={() => setEditingRecipe(null)}
+          />
+        </ModalOverlay>
+      )}
+    </Container>
+  );
+};
+
+export default RecipeList;
+
+
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -95,99 +190,3 @@ const ModalOverlay = styled.div`
   z-index: 1000;
   padding: 20px;
 `;
-
-const RecipeList: React.FC = () => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
-  const [viewingRecipe, setViewingRecipe] = useState<Recipe | null>(null);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    fetchRecipes();
-  }, []);
-
-  const fetchRecipes = async () => {
-    const fetchedRecipes = await getAllRecipes();
-    setRecipes(fetchedRecipes);
-  };
-
-  const handleCreateRecipe = async (recipe: Omit<Recipe, 'id'>) => {
-    await createRecipe(recipe);
-    fetchRecipes();
-    setIsFormVisible(false);
-  };
-
-  const handleUpdateRecipe = async (recipe: Omit<Recipe, 'id'>) => {
-    if (editingRecipe) {
-      await updateRecipe(editingRecipe.id, recipe);
-      fetchRecipes();
-      setEditingRecipe(null);
-    }
-  };
-
-  const handleDeleteRecipe = async (id: string) => {
-    await deleteRecipe(id);
-    fetchRecipes();
-  };
-
-  const filteredRecipes = recipes.filter(recipe =>
-    recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
-  return (
-    <Container>
-      <Title>My Recipe Collection</Title>
-      <SearchContainer>
-        <SearchInput
-          type="text"
-          placeholder="Search recipes..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <AddButton
-          onClick={() => setIsFormVisible(true)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Add New Recipe
-        </AddButton>
-      </SearchContainer>
-      <AnimatePresence>
-        {isFormVisible && (
-          <ModalOverlay>
-            <RecipeForm
-              onSave={handleCreateRecipe}
-              onCancel={() => setIsFormVisible(false)}
-            />
-          </ModalOverlay>
-        )}
-      </AnimatePresence>
-      <Grid>
-        <AnimatePresence>
-          {filteredRecipes.map(recipe => (
-            <RecipeItem
-              key={recipe.id}
-              recipe={recipe}
-              onEdit={setEditingRecipe}
-              onDelete={handleDeleteRecipe}
-              onView={setViewingRecipe}
-            />
-          ))}
-        </AnimatePresence>
-      </Grid>
-      {editingRecipe && (
-        <ModalOverlay>
-          <RecipeForm
-            recipe={editingRecipe}
-            onSave={handleUpdateRecipe}
-            onCancel={() => setEditingRecipe(null)}
-          />
-        </ModalOverlay>
-      )}
-    </Container>
-  );
-};
-
-export default RecipeList;
