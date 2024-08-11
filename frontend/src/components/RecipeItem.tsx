@@ -7,9 +7,10 @@ interface RecipeItemProps {
   recipe: Recipe;
   onEdit: (recipe: Recipe) => void;
   onDelete: (id: string) => void;
+  onView: (recipe: Recipe) => void;
 }
 
-const RecipeItem: React.FC<RecipeItemProps> = ({ recipe, onEdit, onDelete }) => {
+const RecipeItem: React.FC<RecipeItemProps> = ({ recipe, onEdit, onDelete, onView }) => {
   return (
     <StyledRecipeItem
       initial={{ opacity: 0, y: 20 }}
@@ -17,7 +18,7 @@ const RecipeItem: React.FC<RecipeItemProps> = ({ recipe, onEdit, onDelete }) => 
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
     >
-      <Title>{recipe.title}</Title>
+      <Title onClick={() => onView(recipe)}>{recipe.title}</Title>
       <MetaInfo>{recipe.ingredients.length} ingredients • {recipe.steps.length} steps</MetaInfo>
       <ButtonContainer>
         <EditButton
@@ -29,6 +30,7 @@ const RecipeItem: React.FC<RecipeItemProps> = ({ recipe, onEdit, onDelete }) => 
         </EditButton>
         <DeleteButton
           whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => onDelete(recipe.id)}
         >
           Delete
@@ -57,6 +59,11 @@ const Title = styled.h3`
   color: #2c3e50;
   margin-bottom: 12px;
   font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const MetaInfo = styled.p`

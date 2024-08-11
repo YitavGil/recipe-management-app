@@ -1,14 +1,17 @@
+// src/components/RecipeList.tsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import RecipeItem from './RecipeItem';
 import RecipeForm from './RecipeForm';
+import RecipeView from './RecipeView';
 import { Recipe } from '../types/types';
 import { getAllRecipes, createRecipe, updateRecipe, deleteRecipe } from '../services/api';
 
 const RecipeList: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
+  const [viewingRecipe, setViewingRecipe] = useState<Recipe | null>(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -81,6 +84,7 @@ const RecipeList: React.FC = () => {
               recipe={recipe}
               onEdit={setEditingRecipe}
               onDelete={handleDeleteRecipe}
+              onView={setViewingRecipe}
             />
           ))}
         </AnimatePresence>
@@ -94,12 +98,19 @@ const RecipeList: React.FC = () => {
           />
         </ModalOverlay>
       )}
+      {viewingRecipe && (
+        <ModalOverlay>
+          <RecipeView
+            recipe={viewingRecipe}
+            onClose={() => setViewingRecipe(null)}
+          />
+        </ModalOverlay>
+      )}
     </Container>
   );
 };
 
 export default RecipeList;
-
 
 const Container = styled.div`
   max-width: 1200px;
