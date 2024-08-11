@@ -7,6 +7,7 @@ import RecipeForm from './RecipeForm';
 import RecipeView from './RecipeView';
 import { Recipe } from '../types/types';
 import { getAllRecipes, createRecipe, updateRecipe, deleteRecipe } from '../services/api';
+import colors from '../styles/colors';
 
 const RecipeList: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -113,17 +114,20 @@ const RecipeList: React.FC = () => {
 export default RecipeList;
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 20px;
+  background: linear-gradient(135deg, ${colors.backgroundGradientStart} 0%, ${colors.backgroundGradientEnd} 100%);
+  min-height: 100vh;
 `;
 
 const Title = styled.h1`
   font-size: 2.5rem;
-  color: #2c3e50;
+  color: ${colors.primaryText};
   text-align: center;
   margin-bottom: 30px;
   font-weight: 700;
+  text-shadow: 1px 1px 2px ${colors.shadow};
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -132,25 +136,25 @@ const Title = styled.h1`
 
 const SearchContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
+  gap: 20px;
 
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 `;
 
 const SearchInput = styled.input`
   padding: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid ${colors.border};
   border-radius: 6px;
   font-size: 1rem;
   width: 100%;
   max-width: 300px;
   font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 4px ${colors.shadow};
 
   @media (max-width: 768px) {
     max-width: none;
@@ -159,7 +163,7 @@ const SearchInput = styled.input`
 
 const AddButton = styled(motion.button)`
   padding: 12px 20px;
-  background-color: #4299e1;
+  background-color: ${colors.primaryButton};
   color: white;
   border: none;
   border-radius: 6px;
@@ -167,9 +171,10 @@ const AddButton = styled(motion.button)`
   font-weight: 600;
   transition: background-color 0.3s ease;
   font-size: 1rem;
+  box-shadow: 0 2px 4px ${colors.shadow};
 
   &:hover {
-    background-color: #3182ce;
+    background-color: ${colors.primaryButtonHover};
   }
 
   @media (max-width: 768px) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Recipe } from '../types/types';
-
+import colors from '../styles/colors';
 
 interface Props {
   recipe?: Recipe;
@@ -83,12 +83,11 @@ const RecipeForm: React.FC<Props> = ({ recipe, onSave, onCancel }) => {
 
 export default RecipeForm;
 
-
 const FormContainer = styled(motion.form)`
-  background: rgba(255, 255, 255, 0.9);
+  background: ${colors.cardBackground};
   padding: 32px;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px ${colors.shadow};
   margin-bottom: 40px;
   width: 100%;
 `;
@@ -97,7 +96,7 @@ const Input = styled.input`
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid ${colors.border};
   border-radius: 6px;
   font-size: 1rem;
   font-family: 'Poppins', sans-serif;
@@ -107,7 +106,7 @@ const TextArea = styled.textarea`
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid ${colors.border};
   border-radius: 6px;
   font-size: 1rem;
   resize: vertical;
@@ -130,17 +129,17 @@ const Button = styled(motion.button)`
 `;
 
 const SaveButton = styled(Button)`
-  background-color: #48bb78;
+  background-color: ${colors.secondaryButton};
   color: white;
 
   &:hover {
-    background-color: #38a169;
+    background-color: ${colors.secondaryButtonHover};
   }
 `;
 
 const CancelButton = styled(Button)`
-  background-color: #e2e8f0;
-  color: #4a5568;
+  background-color: ${colors.border};
+  color: ${colors.secondaryText};
 
   &:hover {
     background-color: #cbd5e0;

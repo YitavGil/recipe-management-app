@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Recipe } from '../types/types';
+import colors from '../styles/colors';
 
 interface Props {
   recipe: Recipe;
@@ -50,13 +51,13 @@ const RecipeView: React.FC<Props> = ({ recipe, onClose }) => {
 export default RecipeView;
 
 const ViewContainer = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.95);
+  background: ${colors.cardBackground};
   border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px ${colors.shadow};
   max-width: 600px;
   width: 100%;
-  border: 3px solid #ed8936;
+  border: 3px solid ${colors.titleHover};
   position: relative;
   max-height: 80vh;
   overflow-y: auto;
@@ -64,7 +65,7 @@ const ViewContainer = styled(motion.div)`
 
 const Title = styled.h2`
   font-size: 2.2rem;
-  color: #2c3e50;
+  color: ${colors.primaryText};
   margin-bottom: 20px;
   font-weight: 700;
   text-align: center;
@@ -73,13 +74,13 @@ const Title = styled.h2`
 
 const Divider = styled.hr`
   border: none;
-  border-top: 2px solid #ed8936;
+  border-top: 2px solid ${colors.titleHover};
   margin: 20px 0;
 `;
 
 const SectionTitle = styled.h3`
   font-size: 1.4rem;
-  color: #4a5568;
+  color: ${colors.secondaryText};
   margin-top: 20px;
   margin-bottom: 15px;
   font-weight: 600;
@@ -92,7 +93,7 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   margin-bottom: 12px;
-  color: #2d3748;
+  color: ${colors.primaryText};
   font-size: 1.1rem;
   line-height: 1.5;
   display: flex;
@@ -100,7 +101,7 @@ const ListItem = styled.li`
 `;
 
 const Bullet = styled.span`
-  color: #ed8936;
+  color: ${colors.titleHover};
   font-size: 1.2rem;
   margin-right: 10px;
   line-height: 1.5;
@@ -108,7 +109,7 @@ const Bullet = styled.span`
 
 const StepNumber = styled.span`
   font-weight: 600;
-  color: #ed8936;
+  color: ${colors.titleHover};
   margin-right: 10px;
 `;
 
@@ -120,10 +121,10 @@ const CloseButton = styled(motion.button)`
   border: none;
   font-size: 1.8rem;
   cursor: pointer;
-  color: #4a5568;
+  color: ${colors.secondaryText};
   transition: color 0.3s ease;
 
   &:hover {
-    color: #ed8936;
+    color: ${colors.titleHover};
   }
 `;

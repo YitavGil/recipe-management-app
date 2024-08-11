@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Recipe } from '../types/types';
+import colors from '../styles/colors';
 
 interface RecipeItemProps {
   recipe: Recipe;
@@ -43,33 +44,34 @@ const RecipeItem: React.FC<RecipeItemProps> = ({ recipe, onEdit, onDelete, onVie
 export default RecipeItem;
 
 const StyledRecipeItem = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.9);
+  background: ${colors.cardBackground};
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px ${colors.shadow};
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 
   &:hover {
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 8px ${colors.shadow};
+    transform: translateY(-2px);
   }
 `;
 
 const Title = styled.h3`
   font-size: 1.5rem;
-  color: #2c3e50;
+  color: ${colors.primaryText};
   margin-bottom: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: color 0.3s ease;
   text-transform: capitalize;
   &:hover {
-    color: #ed8936;
+    color: ${colors.titleHover};
   }
 `;
 
 const MetaInfo = styled.p`
   font-size: 0.9rem;
-  color: #718096;
+  color: ${colors.secondaryText};
   margin-bottom: 15px;
 `;
 
@@ -85,23 +87,27 @@ const Button = styled(motion.button)`
   border: none;
   cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 `;
 
 const EditButton = styled(Button)`
-  background-color: #4299e1;
+  background-color: ${colors.secondaryButton};
   color: white;
 
   &:hover {
-    background-color: #3182ce;
+    background-color: ${colors.secondaryButtonHover};
   }
 `;
 
 const DeleteButton = styled(Button)`
-  background-color: #f56565;
+  background-color: ${colors.dangerButton};
   color: white;
 
   &:hover {
-    background-color: #e53e3e;
+    background-color: ${colors.dangerButtonHover};
   }
 `;
