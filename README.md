@@ -1,6 +1,7 @@
 # Recipe Management Application
 
 This is a full-stack Recipe Management Application built with React, TypeScript, and Node.js. It allows users to create, view, edit, and delete recipes.
+This app created using Vite.
 
 ## Features
 
@@ -57,8 +58,8 @@ To use Recipe Management Application, follow these steps:
    cd frontend
    npm start
    ```
-   This will start the React app on `http://localhost:3000`
+   This will start the React app on `http://localhost:5173`
 
-3. Open your web browser and visit `http://localhost:3000` to use the application
+3. Open your web browser and visit `http://localhost:5173` to use the application
 
 
