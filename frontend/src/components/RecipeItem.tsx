@@ -60,9 +60,10 @@ const Title = styled.h3`
   margin-bottom: 12px;
   font-weight: 600;
   cursor: pointer;
-
+  transition: color 0.3s ease;
+  text-transform: capitalize;
   &:hover {
-    text-decoration: underline;
+    color: #ed8936;
   }
 `;
 
